@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -std=c++14  -O3 -Wall -fPIC   -shared -Wl,-soname,libastar.so -o /home/wmj/GCOPTER-main/devel/lib/libastar.so CMakeFiles/astar.dir/src/dyn_a_star.cpp.o 

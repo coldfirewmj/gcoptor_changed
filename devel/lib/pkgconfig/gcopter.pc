@@ -1,0 +1,8 @@
+prefix=/home/wmj/GCOPTER-main/devel
+
+Name: gcopter
+Description: Description of gcopter
+Version: 0.1.0
+Cflags: -I/home/wmj/GCOPTER-main/src/gcopter/include
+Libs: -L${prefix}/lib 
+Requires: 

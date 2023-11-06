@@ -1,0 +1,2 @@
+gcopter:map_gen/load_pcd:map_gen/mockamap
+-DCMAKE_BUILD_TYPE=RelWithDebInfo -DCATKIN_DEVEL_PREFIX=/home/wmj/GCOPTER-main/devel -DCMAKE_INSTALL_PREFIX=/home/wmj/GCOPTER-main/install -G Unix Makefiles

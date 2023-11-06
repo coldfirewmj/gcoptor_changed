@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+  
+  <include file="$(find gcopter)/launch/include/advanced_param.xml">
+  </include>
+
+   <node name="rviz" pkg="rviz" type="rviz" output="screen"
+    args="-d $(find gcopter)/config/global_planning.rviz"> 
+  </node>
+  
+  <node name="pos_vel_plot" pkg="rqt_plot" type="rqt_plot" 
+    args="/visualizer/speed /visualizer/total_thrust /visualizer/tilt_angle /visualizer/body_rate">
+  </node>
+
+  <node pkg="mockamap" type="mockamap_node" name="mockamap_node" output="screen">
+  <param name="seed" type="int" value="1024"/>
+  <param name="update_freq" type="double" value="1.0"/>
+  <param name="resolution" type="double" value="0.25"/>
+  <param name="x_length" type="int" value="50"/>
+  <param name="y_length" type="int" value="50"/>
+  <param name="z_length" type="int" value="5"/>
+  <param name="type" type="int" value="1"/>
+  <param name="complexity"    type="double" value="0.025"/>
+  <param name="fill"          type="double" value="0.3"/>
+  <param name="fractal"       type="int"    value="1"/>
+  <param name="attenuation"   type="double" value="0.1"/>
+  <remap from="/mock_map" to="/voxel_map"/>
+  </node>
+  <!--load from local enviroment-->
+    <node pkg ="load_pcd" name ="airsimmap_node" type ="airsimmap_node" output = "screen">
+    <!-- 该图原比例的resolution为1 -->
+        <param name="resolution" value="1"/>
+    </node>
+
+  <node pkg="gcopter" type="global_planning" name="global_planning_node" output="screen">
+  <!--rosparam file="$(find gcopter)/config/global_planning.yaml" command="load" /-->
+  <param name="SFCrange" type="double" value="2.0"/>
+
+  <param name="MapTopic" type="str" value="/pcd_topic"/>
+  <param name="TargetTopic" type="str" value="/move_base_simple/goal"/>
+  <param name="DilateRadius" type="double" value="5.0"/>
+  <param name="VoxelWidth" type="double" value="2.5"/>
+  <rosparam param="MapBound">[-50, 700, -350, 350, 0.0, 50]</rosparam>
+  <param name="TimeoutRRT" type="double" value="0.02"/>
+  <param name="MaxVelMag" type="double" value="4.0"/>
+  <param name="MaxBdrMag" type="double" value="2.1"/>
+  <param name="MaxTiltAngle" type="double" value="1.05"/>
+  <param name="MinThrust" type="double" value="2.0"/>
+  <param name="MaxThrust" type="double" value="12.0"/>
+  <param name="VehicleMass" type="double" value="0.61"/>
+  <param name="GravAcc" type="double" value="9.8"/>
+  <param name="HorizDrag" type="double" value="0.70"/>
+  <param name="VertDrag" type="double" value="0.80"/>
+  <param name="ParasDrag" type="double" value="0.01"/>
+  <param name="SpeedEps" type="double" value="0.0001"/>
+  <param name="WeightT" type="double" value="20.0"/>
+  <rosparam param="ChiVec">[1.0e+4, 1.0e+4, 1.0e+4, 1.0e+4, 1.0e+5]</rosparam>
+  <param name="SmoothingEps" type="double" value="1.0e-2"/>
+  <param name="IntegralIntervs" type="int" value="16"/>
+  <param name="RelCostTol" type="double" value="1.0e-5"/>
+
+  </node>
+
+</launch>
